@@ -1,292 +1,132 @@
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
 
-call plug#begin('~/.config/nvim/plugged')
-  Plug 'szw/vim-maximizer'
-  Plug 'tmhedberg/SimpylFold'
-  Plug 'w0rp/ale'
-  Plug 'Raimondi/delimitMate'
-  Plug '~/.fzf'
-  Plug 'junegunn/fzf.vim'
-  Plug 'JamshedVesuna/vim-markdown-preview'
-  Plug 'shime/vim-livedown'
-  Plug 'scrooloose/nerdtree'
-  " Plug 'othree/javascript-libraries-syntax.vim'
-  " Plug 'Shutnik/jshint2.vim'
-  Plug 'vim-airline/vim-airline'
-  " Plug 'terryma/vim-expand-region'
-  " Plug 'nathanaelkane/vim-indent-guides'
-  " Plug 'pangloss/vim-javascript'
-  " Plug 'jelera/vim-javascript-syntax'
-  Plug 'elzr/vim-json'
-  Plug 'plasticboy/vim-markdown'
-  Plug 'tpope/vim-sensible'
-  Plug 'mhinz/vim-signify'
-  Plug 'tpope/vim-surround'
-  " Plug 'vim-scripts/JavaScript-Indent'
-  " Plug 'gavocanov/vim-js-indent'
-  " Plug 'othree/yajs.vim'
-  " Plug 'mxw/vim-jsx'
-  " Plug 'itspriddle/vim-jquery'
-  Plug 'Shougo/vimproc.vim', {'do' : 'make'}
-  Plug 'Valloric/YouCompleteMe' 
-  " Plug 'Valloric/YouCompleteMe', {'do': './install.py'}
-  Plug 'ddrscott/vim-side-search' 
-  Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
-  Plug 'haya14busa/incsearch.vim'
-  Plug 'easymotion/vim-easymotion'
-  Plug 'ctrlpvim/ctrlp.vim'
-  Plug 'wincent/command-t'
-  Plug 'tpope/vim-unimpaired'
-  " Plug 'wincent/command-t', , {
-  "     \   'do': 'cd ruby/command-t/ext/command-t && ruby extconf.rb && make'
-  "     \ }
-  " Plug 'moll/vim-node'
-  Plug 'tomtom/tcomment_vim'
-  Plug 'mileszs/ack.vim'
-  Plug 'tpope/vim-surround'
-  Plug 'jistr/vim-nerdtree-tabs'
-  Plug 'quramy/tsuquyomi'
-  Plug 'jason0x43/vim-js-indent'
-  " Plug 'ianks/vim-tsx'
-  Plug 'leafgarland/typescript-vim'
-  Plug 'Konfekt/FastFold'
-call plug#end()
-if has("autocmd")
-  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-endif
-filetype plugin indent on
-set wildmenu
-set cursorline 
-set showmatch
-imap jj <Esc>
-"colorscheme distinguished
-set updatetime=250
-set foldmethod=syntax
-set foldlevelstart=0
-set foldnestmax=20
-let g:fastfold_fold_command_suffixes = []
-nmap zuz (FastFoldUpdate)
-let g:fastfold_savehook = 1
-let g:tex_fold_enabled=1
-let g:vimsyn_folding='af'
-let g:xml_syntax_folding = 1
-let g:php_folding = 1
-let g:perl_fold = 1
-let g:python_syntax_folding=1
-let g:python_fold = 1
-map <C-a> <Plug>(easymotion-bd-w)
-map <C-e> <Plug>(easymotion-bd-e)
-map <C-b> <Plug>(easymotion-b)
-" map <C-k> <Plug>(easymotion-k)
-" map <C-j> <Plug>(easymotion-j)
-map /  <Plug>(incsearch-forward)
-map ?  <Plug>(incsearch-backward)
-map g/ <Plug>(incsearch-stay)
-set hlsearch
-let g:incsearch#auto_nohlsearch = 1
-map n  <Plug>(incsearch-nohl-n)
-map N  <Plug>(incsearch-nohl-N)
-map *  <Plug>(incsearch-nohl-*)
-map #  <Plug>(incsearch-nohl-#)
-map g* <Plug>(incsearch-nohl-g*)
-map g# <Plug>(incsearch-nohl-g#)"
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP /Users/frederickhadley/twins'
-let g:ctrlp_match_window = 'bottom,order:ttb'
-let g:ctrlp_switch_buffer = 0
-" let g:ctrlp_cmd='CtrlP /home/ubnuntu/kirk'
-" let g:ctrlp_working_path_mode = 'r'
-let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
-let g:javascript_enable_domhtmlcss = 1
-" let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': [],'passive_filetypes': [] }
-let mapleader = "\<Space>"
-let vim_markdown_preview_hotkey='<C-m>'
-let vim_markdown_preview_browser='Google Chrome'
-let vim_markdown_preview_github=1
-autocmd BufRead,BufNewFile *.md setlocal spell
-nnoremap <Leader>n :set number relativenumber<CR>
-nnoremap <Leader>n1 :set nonumber norelativenumber<CR>
-nnoremap <Leader>w :w<CR>
-nnoremap <Leader>q :q<CR>
-nnoremap <Leader>e :wq<CR>
-nnoremap <Leader>k :NERDTree<CR>
-nnoremap <leader>h :tabprevious<CR>
-nnoremap <leader>l :tabprevious<CR>
-nnoremap <Leader>o :lopen<CR>
-nnoremap <leader>y :call system('nc localhost 8377', @0)<CR>
-" nnoremap <Leader>t :Ctrlp /home/ubuntu/kirk/ <CR>
-let NERDTreeShowHidden=1
+# Path to your oh-my-zsh installation.
+export ZSH="/Users/frederickhadley/.oh-my-zsh"
 
-" nnoremap <Leader>s :SyntasticToggleMode<CR>
-vmap <Leader>y "+y
-vmap <Leader>d "+d
-nmap <Leader>p "+p
-nmap <Leader>P "+P
-vmap <Leader>p "+p
-vmap <Leader>P "+P
-nmap <Leader>4 $
-nmap <Leader>6 ^
-nnoremap <F2> :set invpaste paste?<CR>
-set pastetoggle=<F2>
-set showmode
-set relativenumber
-set number
-vmap v <Plug>(expand_region_expand)
-vmap <C-v> <Plug>(expand_region_shrink)
-noremap gV `[v`]
-nnoremap <space> za
-noremap m za
-noremap ma zA
-function! GetVisual() range
-    let reg_save = getreg('"')
-    let regtype_save = getregtype('"')
-    let cb_save = &clipboard
-    set clipboard&
-    normal! ""gvy
-    let selection = getreg('"')
-    call setreg('"', reg_save, regtype_save)
-    let &clipboard = cb_save
-    return selection
-endfunction
-vmap <C-r> <Esc>:%s/<c-r>=GetVisual()<cr>//g<left><left>
-vmap <C-f> <Esc>/<c-r>=GetVisual()<cr><left>
-set softtabstop=2
-set tabstop=2
-set shiftwidth=2
-set expandtab
-" vp doesn't replace paste buffer
-function! RestoreRegister()
-  let @" = s:restore_reg
-  return ''
-endfunction
-function! s:Repl()
-  let s:restore_reg = @"
-  return "p@=RestoreRegister()\<cr>"
-endfunction
-vmap <silent> <expr> p <sid>Repl()
-let g:vim_markdown_folding_disabled=1
-set clipboard=unnamed
-let g:jsx_ext_required = 0 " Allow JSX in normal JS files
+# Set name of the theme to load --- if set to "random", it will
+# load a random theme each time oh-my-zsh is loaded, in which case,
+# to know which specific one was loaded, run: echo $RANDOM_THEME
+# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
+# ZSH_THEME="robbyrussell"
+ZSH_THEME="spaceship"
+# Set list of themes to pick from when loading at random
+# Setting this variable when ZSH_THEME=random will cause zsh to load
+# a theme from this variable instead of looking in ~/.oh-my-zsh/themes/
+# If set to an empty array, this variable will have no effect.
+# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
+
+# Uncomment the following line to use case-sensitive completion.
+# CASE_SENSITIVE="true"
+
+# Uncomment the following line to use hyphen-insensitive completion.
+# Case-sensitive completion must be off. _ and - will be interchangeable.
+# HYPHEN_INSENSITIVE="true"
+
+# Uncomment the following line to disable bi-weekly auto-update checks.
+# DISABLE_AUTO_UPDATE="true"
+
+# Uncomment the following line to change how often to auto-update (in days).
+# export UPDATE_ZSH_DAYS=13
+
+# Uncomment the following line to disable colors in ls.
+# DISABLE_LS_COLORS="true"
+
+# Uncomment the following line to disable auto-setting terminal title.
+# DISABLE_AUTO_TITLE="true"
+
+# Uncomment the following line to enable command auto-correction.
+# ENABLE_CORRECTION="true"
+
+# Uncomment the following line to display red dots whilst waiting for completion.
+# COMPLETION_WAITING_DOTS="true"
+
+# Uncomment the following line if you want to disable marking untracked files
+# under VCS as dirty. This makes repository status check for large repositories
+# much, much faster.
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+# Uncomment the following line if you want to change the command execution time
+# stamp shown in the history command output.
+# You can set one of the optional three formats:
+# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# or set a custom format using the strftime function format specifications,
+# see 'man strftime' for details.
+# HIST_STAMPS="mm/dd/yyyy"
+
+# Would you like to use another custom folder than $ZSH/custom?
+# ZSH_CUSTOM=/path/to/new-custom-folder
+
+# Which plugins would you like to load?
+# Standard plugins can be found in ~/.oh-my-zsh/plugins/*
+# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+plugins=(git zsh-iterm-touchbar zsh-autosuggestions zsh-syntax-highlighting)
+
+source $ZSH/oh-my-zsh.sh
+
+# User configuration
+
+# export MANPATH="/usr/local/man:$MANPATH"
+
+# You may need to manually set your language environment
+# export LANG=en_US.UTF-8
+
+# Preferred editor for local and remote sessions
+# if [[ -n $SSH_CONNECTION ]]; then
+#   export EDITOR='vim'
+# else
+#   export EDITOR='mvim'
+# fi
+
+# Compilation flags
+# export ARCHFLAGS="-arch x86_64"
+
+# ssh
+# export SSH_KEY_PATH="~/.ssh/rsa_id"
+
+# Set personal aliases, overriding those provided by oh-my-zsh libs,
+# plugins, and themes. Aliases can be placed here, though oh-my-zsh
+# users are encouraged to define aliases within the ZSH_CUSTOM folder.
+# For a full list of active aliases, run `alias`.
+#
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi
+source ~/.fzf.zsh
+. /Users/frederickhadley/anaconda3/etc/profile.d/conda.sh
+function virtualenv_info {
+ [ $CONDA_DEFAULT_ENV ] && echo `basename $CONDA_DEFAULT_ENV`
+}
+conda activate newenv
+export PATH=/usr/local/Cellar/docker-credential-helper-ecr/0.3.1/bin/docker-credential-ecr-login:$PATH
+#PROMPT="%{$fg[white]%}($(virtualenv_info)) %{$FG[201]%}%m ${PROMPT}"
 
 
-" set statusline+=%#warningmsg#
-" set statusline+=%{SyntasticStatuslineFlag()}
-" set statusline+=%*
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/frederickhadley/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/frederickhadley/google-cloud-sdk/path.zsh.inc'; fi
 
-"let g:tsuquyomi_disable_quickfix = 1
-" let g:syntastic_typescript_checkers = ['tsuquyomi'] 
-" let g:syntastic_loc_list_height = 5
-" let g:syntastic_auto_loc_list = 0
-" "let g:syntastic_quiet_messages = { "!level": "errors", "type":"style", "regex":'.*', "file:p":  '.*' }
-" let g:syntastic_python_checkers = ['pylint']
-" let g:syntastic_python_pylint_args = '-E'
-" let g:syntastic_check_on_open = 0
-" let g:syntastic_check_on_wq = 0
-" let g:syntastic_javascript_checkers = ['eslint']
-" let g:syntastic_always_populate_loc_list = 0
-" " let g:syntastic_error_symbol = '❌'
-" "let g:syntastic_style_warning_symbol = '⁉️'
-" " let g:syntastic_style_error_symbol = '⁉️'
-" let g:syntastic_warning_symbol = '⚠️'
-" let g:syntastic_error_symbol = '💩'
-let g:ycm_server_keep_logfiles = 1
-let g:ycm_server_log_level = 'debug'
-let g:ycm_server_use_vim_stdout = 1
-let g:ycm_goto_buffer_command = 'vertical-split'
-nnoremap <leader>jd :YcmCompleter GoTo<CR>
-" " autocmd BufEnter *.tsx set filetype=typescript
-" autocmd FileType typescript setlocal completeopt+=menu,preview
-" autocmd FileType typescript nmap <buffer> <Leader>t : <C-u>echo tsuquyomi#hint()<CR>
-" nnoremap <Leader>f :TsuquyomiDefinition<CR>
-" " nnoremap <Leader>f <Plug>(TsuquyomiDefinition) <CR>
-" let g:tsuquyomi_definition_split = 2 
-" highlight link SyntasticErrorSign SignColumn
-" highlight link SyntasticWarningSign SignColumn
-" highlight link SyntasticStyleErrorSign SignColumn
-" highlight link SyntasticStyleWarningSign SignColumn
-
-let delimitMate_expand_cr = 1
-let delimitMate_expand_space = 1
-
-
-let g:side_search_prg = 'ag '
-  \. " --ignore='*.csv'"
-  \. " --heading --stats -B 1 -A 4"
-let g:side_search_splitter = 'vnew'
-let g:side_search_split_pct = 0.4
-nnoremap <Leader>ss :SideSearch <C-r><C-w><CR> | wincmd p
-command! -complete=file -nargs=+ SS execute 'SideSearch <args>'
-
-command! -nargs=* CtrlCwd execute 'CtrlP getcwd()'
-cabbrev  SS  SideSearch
-nnoremap <Leader>t :CtrlCwd <CR>
-augroup CloseLoclistWindowGroup
-  autocmd!
-  autocmd QuitPre * if empty(&buftype) | lclose | endif
-augroup END
-
-let g:ale_lint_on_enter = 1
-let g:ale_lint_on_text_changed = 'normal'
-let g:ale_lint_on_save = 1
-let g:ale_set_loclist = 1 
-let g:ale_set_quickfix = 0
-let g:ale_open_list = 1
-let g:ale_list_window_size = 5
-let g:ale_echo_cursor = 0
-
-" vim-ale flow eats all my inotify slots :/
-let g:ale_linters = {
-  \ 'c': [],
-  \ 'cpp': [],
-  \ 'python': ['flake8'],
-  \ 'java': [],
-  \ 'javascript': ['eslint'],
-  \ }
-"'python3': ['flake8'],
-"let g:ale_python_flake8_args = '--ignore=E,W,F403,F405 --select=C'
-let g:ale_python_flake8_options = '--select F,E --ignore W,E302,E231,E722,E128,E225,E302,E222,E265,E226,E501,E305,E271,E272,F401,F841,E203,E262,E731,E712'
-"let g:ale_python3_flake8_options = '--select F'
-let g:ale_sign_error = '💩'
-let g:ale_sign_warning = '⚠️'
-nmap <silent> <C-k> :lprevious<CR> 
-nmap <silent> <C-j> :lnext<CR>
-let g:ale_set_highlights = 0
-highlight QuickFixLine ctermfg=15 ctermbg=9 guifg=White guibg=Red
-nnoremap <c-W>o :MaximizerToggle<CR>
-vnoremap <c-W>o :MaximizerToggle<CR>gv
-fun! s:fzf_root()
-	let path = finddir(".git", expand("%:p:h").";")
-	return fnamemodify(substitute(path, ".git", "", ""), ":p:h")
-endfun
-
-nnoremap <silent> <Leader>ff :exe 'Files ' . <SID>fzf_root()<CR>
-
-"inoremap <c-W>o:MaximizerToggle<CR>
-" nnoremap <C-W>O :call MaximizeToggle()<CR>
-" nnoremap <C-W>o :call MaximizeToggle()<CR>
-" nnoremap <C-W><C-O> :call MaximizeToggle()<CR>
-"
-" function! MaximizeToggle()
-"   if exists("s:maximize_session")
-"     exec "source " . s:maximize_session
-"     call delete(s:maximize_session)
-"     unlet s:maximize_session
-"     let &hidden=s:maximize_hidden_save
-"     unlet s:maximize_hidden_save
-"   else
-"     let s:maximize_hidden_save = &hidden
-"     let s:maximize_session = tempname()
-"     set hidden
-"     exec "mksession! " . s:maximize_session
-"     only
-"   endif
-" endfunction
-"let g:syntastic_warning_symbol = '⚠️'
-" "autocmd! BufWritePost,BufEnter * Neomake 
-" let g:ale_linters = {'python':['pylint']}
-"let g:ale_python_pyflakes = '--ignore=W --select=F,C,E'
-" let g:ale_python_pylint_options = '-E'
-" "let g:neomake_python_enabled_makers = ['pylint']
-" "let g:neomake_open_list = 2
-" " let g:neomake_python_pylint_args = '-E'
-" " let g:neomake_error_sign={'text': '💩',   'texthl': 'NeomakeErrorSign'}
-" " let g:neomake_warning_sign = { 'text': '⚠️', 'texthl': 'NeomakeWarningSign',}
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/frederickhadley/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/frederickhadley/google-cloud-sdk/completion.zsh.inc'; fi
+export CLIENT_ID=477922285290-67tjdnf5sm5i99315dln9rrumedq9eap.apps.googleusercontent.com 
+export CLIENT_SECRET=HEnX3nDRXGU4jokGhuSoZCsv
+source ~/twins/kubeflow/set_env.sh
+export TRAINS_FILE_HOST="http://3.80.165.231:8081"
+export TRAINS_WEB_HOST="http://3.80.165.231:8080"
+export TRAINS_API_HOST="http://3.80.165.231:8008"
+alias clip="nc localhost 8377"
+ssh() {
+    if [ "$(ps -p $(ps -p $$ -o ppid=) -o comm=)" = "tmux" ]; then
+        tmux rename-window "$(echo $* | cut -d . -f 1)"
+        command ssh "$@"
+        tmux set-window-option automatic-rename "on" 1>/dev/null
+    else
+        command ssh "$@"
+    fi
+}
+./start_sessions.zsh
+export DISABLE_AUTO_TITLE='true'
