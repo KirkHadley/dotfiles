@@ -41,6 +41,11 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'roxma/vim-hug-neovim-rpc'
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
   Plug 'julienr/vim-cellmode' 
+  Plug 'liuchengxu/vim-which-key'
+  Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
   call plug#end()
 if has("autocmd")
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
@@ -65,7 +70,7 @@ let g:php_folding = 1
 let g:perl_fold = 1
 let g:python_syntax_folding=1
 let g:python_fold = 1
-map <C-a> <Plug>(easymotion-bd-w)
+map <C-w> <Plug>(easymotion-bd-w)
 map <C-e> <Plug>(easymotion-bd-e)
 map <C-b> <Plug>(easymotion-b)
 " map <C-k> <Plug>(easymotion-k)
@@ -95,8 +100,8 @@ let vim_markdown_preview_hotkey='<C-m>'
 let vim_markdown_preview_browser='Google Chrome'
 let vim_markdown_preview_github=1
 autocmd BufRead,BufNewFile *.md setlocal spell
-map <Leader>c  <Plug>(IPy-Interrupt)
-map <Leader>d <Plug>(IPy-Terminate)
+" map <Leader>c  <Plug>(IPy-Interrupt)
+" map <Leader>d <Plug>(IPy-Terminate)
 nnoremap   <silent>   <Leader>i    :FloatermNew --height=0.5 --width=0.2 --wintype=floating --name=ipy --position=topright --autoclose=1 --name=ipy ipython <CR>
 tnoremap   <silent>   <Leader>i    <C-\><C-n>:FloatermNew --height=0.5 --width=0.2 --wintype=floating --name=ipy --position=topright --autoclose=1 --name=ipy ipython <CR>
 nnoremap   <silent>   <C-x>   :FloatermToggle<CR>
@@ -115,10 +120,71 @@ nnoremap <Leader>w :w<CR>
 nnoremap <Leader>q :q<CR>
 nnoremap <Leader>e :wq<CR>
 nnoremap <Leader>k :NERDTree<CR>
-nnoremap <leader>h :tabprevious<CR>
-nnoremap <leader>l :tabprevious<CR>
+" nnoremap <leader>h :tabprevious<CR>
+" nnoremap <leader>l :tabprevious<CR>
 nnoremap <Leader>o :lopen<CR>
-nnoremap <leader>y :call system('nc localhost 8377', @0)<CR>
+set hidden
+let g:LanguageClient_serverCommands = {
+    \ 'python': ['/Users/frederickhadley/anaconda3/envs/newenv/bin/pyls']}
+"     \   "plugins": {
+"     \       "pyflakes": {
+"     \           "enabled": v:false
+"     \       },
+"     \        "pydocstyle": {
+"     \            "enabled": v:false
+"     \       },
+"     \       "jedi_completion":{
+"     \         "enabled": v:false
+"     \       },
+"     \       "pyflakes" : { "enabled": v:true},
+"     \   }
+"     \ ],
+"     \ }
+" let g:LanguageClient_serverCommands = {
+"           \ "python":['/Users/frederickhadley/anaconda3/envs/newenv/bin/pyls',{
+"           \     "enable" : v:true,
+"           \     "trace" : { "server" : "verbose", },
+"           \     "commandPath" : "",
+"           \     "configurationSources" : [ "pycodestyle" ],
+"           \     "plugins" : {
+"           \       "jedi_completion" : { "enabled" : v:true, },
+"           \       "jedi_hover" : { "enabled" : v:true, },
+"           \       "jedi_references" : { "enabled" : v:true, },
+"           \       "jedi_signature_help" : { "enabled" : v:true, },
+"           \       "jedi_symbols" : {
+"           \         "enabled" : v:true,
+"           \         "all_scopes" : v:true,
+"           \       },
+"           \       "mccabe" : {
+"           \         "enabled" : v:true,
+"           \         "threshold" : 15,
+"           \       },
+"           \       "preload" : { "enabled" : v:true, },
+"           \       "pycodestyle" : { "enabled" : v:true, },
+"           \       "pydocstyle" : {
+"           \         "enabled" : v:false,
+"           \         "match" : "(?!test_).*\\.py",
+"           \         "matchDir" : "[^\\.].*",
+"           \       },
+"           \       "pyflakes" : { "enabled" : v:true, },
+"           \       "rope_completion" : { "enabled" : v:true, },
+"           \       "yapf" : { "enabled" : v:true, },
+"           \     }}]}
+" let g:LanguageClient_serverCommands = {
+"     \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
+"     \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
+"     \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
+"     \ 'python': ['/Users/frederickhadley/anaconda3/envs/newenv/bin/pyls'],
+"     \ 'ruby': ['~/.rbenv/shims/solargraph', 'stdio'],
+"     \ }
+
+nnoremap <F5> :call LanguageClient_contextMenu()<CR>
+" Or map each action separately
+nnoremap <silent> <Leader>l :call LanguageClient#textDocument_hover()<CR>
+nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
+
+" nnoremap <leader>y :call system('nc localhost 8377', @0)<CR>
 " nnoremap <Leader>t :Ctrlp /home/ubuntu/kirk/ <CR>
 " let NERDTreeShowHidden=1
 let g:python3_host_prog='/Users/frederickhadley/anaconda3/envs/newenv/bin/python3.6'
@@ -229,7 +295,7 @@ let g:side_search_splitter = 'vnew'
 let g:side_search_split_pct = 0.4
 nnoremap <Leader>ss :SideSearch <C-r><C-w><CR> | wincmd p
 command! -complete=file -nargs=+ SS execute 'SideSearch <args>'
-
+map <C-a> :Ag <CR>
 command! -nargs=* CtrlCwd execute 'CtrlP getcwd()'
 cabbrev  SS  SideSearch
 nnoremap <Leader>t :CtrlCwd <CR>
@@ -255,6 +321,36 @@ let g:ale_linters = {
   \ 'java': [],
   \ 'javascript': ['eslint'],
   \ }
+
+" let settings = {
+"           \   "pyls" : {
+"           \     "enable" : v:true,
+"           \     "trace" : { "server" : "verbose", },
+"           \     "commandPath" : "",
+"           \     "plugins" : {
+"           \       "jedi_completion" : { "enabled" : v:false, },
+"           \       "jedi_hover" : { "enabled" : v:true, },
+"           \       "jedi_references" : { "enabled" : v:true, },
+"           \       "jedi_signature_help" : { "enabled" : v:true, },
+"           \       "jedi_symbols" : {
+"           \         "enabled" : v:true,
+"           \         "all_scopes" : v:true,
+"           \       },
+"           \       "mccabe" : {
+"           \         "enabled" : v:true,
+"           \         "threshold" : 15,
+"           \       },
+"           \       "pycodestyle" : { "enabled" : v:false, },
+"           \       "pydocstyle" : {
+"           \         "enabled" : v:false,
+"           \       },
+"           \       "pyflakes" : { "enabled" : v:false, },
+"           \       "rope_completion" : { "enabled" : v:true, },
+"           \       "yapf" : { "enabled" : v:true, },
+"           \     }}}
+" call nvim_lsp#setup("pyls", settings)
+
+
 "'python3': ['flake8'],
 "let g:ale_python_flake8_args = '--ignore=E,W,F403,F405 --select=C'
 let g:ale_python_flake8_options = '--select F,E --ignore W,E302,E231,E722,E128,E225,E302,E222,E265,E226,E501,E305,E271,E272,F401,F841,E203,E262,E731,E712'
