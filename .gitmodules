@@ -1,0 +1,3 @@
+[submodule "twin_configs/oh-my-zsh"]
+	path = twin_configs/oh-my-zsh
+	url = https://github.com/KirkHadley/oh-my-zsh.git
