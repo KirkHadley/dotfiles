@@ -46,6 +46,7 @@ call plug#begin('~/.config/nvim/plugged')
     \ 'branch': 'next',
     \ 'do': 'bash install.sh',
     \ }
+  Plug 'deoplete-plugins/deoplete-jedi'
   call plug#end()
 if has("autocmd")
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
