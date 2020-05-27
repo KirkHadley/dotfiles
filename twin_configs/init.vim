@@ -52,6 +52,7 @@ if has("autocmd")
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
 filetype plugin indent on
+let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 set wildmenu
 set cursorline 
 set showmatch
