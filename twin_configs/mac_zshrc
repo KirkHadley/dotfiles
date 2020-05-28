@@ -119,14 +119,14 @@ export TRAINS_FILE_HOST="http://3.80.165.231:8081"
 export TRAINS_WEB_HOST="http://3.80.165.231:8080"
 export TRAINS_API_HOST="http://3.80.165.231:8008"
 alias clip="nc localhost 8377"
-ssh() {
-    if [ "$(ps -p $(ps -p $$ -o ppid=) -o comm=)" = "tmux" ]; then
-        tmux rename-window "$(echo $* | cut -d . -f 1)"
-        command ssh "$@"
-        tmux set-window-option automatic-rename "on" 1>/dev/null
-    else
-        command ssh "$@"
-    fi
-}
-./start_sessions.zsh
+# ssh() {
+#     if [ "$(ps -p $(ps -p $$ -o ppid=) -o comm=)" = "tmux" ]; then
+#         tmux rename-window "$(echo $* | cut -d . -f 1)"
+#         command ssh "$@"
+#         tmux set-window-option automatic-rename "on" 1>/dev/null
+#     else
+#         command ssh "$@"
+#     fi
+# }
+zsh ~/start_sessions.zsh
 export DISABLE_AUTO_TITLE='true'

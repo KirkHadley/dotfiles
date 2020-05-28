@@ -10,3 +10,4 @@ alias dev='kubectl config use-context arn:aws:eks:us-west-2:575768168724:cluster
 alias stg='kubectl config use-context arn:aws:eks:ap-south-1:575768168724:cluster/mbstg-kube'
 alias prd='kubectl config use-context arn:aws:eks:ap-south-1:575768168724:cluster/mbprd-kube'
 alias cat='bat'
+alias tkillall='tmk i && tmk j && tmk m && tmk s'
