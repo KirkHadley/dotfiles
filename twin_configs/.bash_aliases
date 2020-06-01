@@ -11,4 +11,5 @@ alias stg='kubectl config use-context arn:aws:eks:ap-south-1:575768168724:cluste
 alias prd='kubectl config use-context arn:aws:eks:ap-south-1:575768168724:cluster/mbprd-kube'
 alias cat='bat'
 alias tkillall='tmk i && tmk j && tmk m && tmk s'
+alias tkillremote='tmk m && tmk s'
 alias startsessions='zsh ~/start_sessions.zsh'
