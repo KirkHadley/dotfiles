@@ -1,7 +1,9 @@
 #!/bin/zsh
 source ~/.bash_aliases
 mldevpublicip=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=Kirk" --query "Reservations[*].Instances[*].PublicIpAddress"  --output=text)
-mlsinglegpu=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=ml-dev-gpu-base" --query "Reservations[*].Instances[*].PublicIpAddress"  --output=text)
+eastmlsinglegpu=$(aws ec2 describe-instances --region us-east-1 --filters Name=tag:Name,Values=ml-dev-gpu-base --query "Reservations[*].Instances[*].PublicIpAddress" --output=text)
+westmlsinglegpu=$(aws ec2 describe-instances --region us-west-2 --filters Name=tag:Name,Values=mldevgpu --query "Reservations[*].Instances[*].PublicIpAddress" --output=text)
+
 export mldevpublicip
 export mlsinglegpu
 
@@ -24,8 +26,10 @@ if [ $? != 0 ]; then
   fi
   fi
   if [ $session = 'singlegpu' ]; then 
-  tmux new-session -d -s $session "ssh -i ~/Downloads/tdaws.pem ubuntu@$mlsinglegpu"
-  tmux send-keys -t $session "tma bp" ENTER
+  tmux new-session -d -s $session "ssh -i ~/Downloads/tdaws.pem ubuntu@$eastmlsinglegpu"
+  fi
+  if [ $session = 'wsinglegpu' ]; then 
+  tmux new-session -d -s $session "ssh -i ~/Downloads/tdaws.pem ubuntu@$westmlsinglegpu"
   fi
   if [ $session = 'jpy' ]; then 
   tmux new-session -d -s $session "jupyter notebook --no-browser" 
