@@ -5,9 +5,9 @@ eastmlsinglegpu=$(aws ec2 describe-instances --region us-east-1 --filters Name=t
 westmlsinglegpu=$(aws ec2 describe-instances --region us-west-2 --filters Name=tag:Name,Values=mldevgpu --query "Reservations[*].Instances[*].PublicIpAddress" --output=text)
 
 export mldevpublicip
-export mlsinglegpu
-
-for session in mldev ipy singlegpu multigpu jpy
+export eastmlsinglegpu
+export westmlsinglegpu 
+for session in mldev ipy singlegpu multigpu jpy wgpu
 do
 tmux has-session -t $session 2>/dev/null
 if [ $? != 0 ]; then
@@ -25,11 +25,13 @@ if [ $? != 0 ]; then
     echo "Did not find any multi gpu instances"
   fi
   fi
-  if [ $session = 'singlegpu' ]; then 
-  tmux new-session -d -s $session "ssh -i ~/Downloads/tdaws.pem ubuntu@$eastmlsinglegpu"
+  if [ $session = 'singlegpu' ]; then
+    tmux new-session -d -s $session "ssh -i ~/Downloads/tdaws.pem ubuntu@$eastmlsinglegpu"
+    # tmux send-keys -t $session "tma bp" ENTER
   fi
-  if [ $session = 'wsinglegpu' ]; then 
-  tmux new-session -d -s $session "ssh -i ~/Downloads/tdaws.pem ubuntu@$westmlsinglegpu"
+  if [ $session = 'wgpu' ]; then
+    tmux new-session -d -s $session "ssh -i ~/Downloads/tdaws.pem ubuntu@$westmlsinglegpu"
+    # tmux send-keys -t $session "tma bp" ENTER
   fi
   if [ $session = 'jpy' ]; then 
   tmux new-session -d -s $session "jupyter notebook --no-browser" 
