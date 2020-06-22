@@ -135,7 +135,7 @@ export mldevpublicip
 killstartattach() {
   for var in "$@"
   do
-    tmk "$var"
+    tmk "$var" || echo "session $var does not exist"
   done
   startsessions
   for last; do true; done
