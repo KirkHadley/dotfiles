@@ -130,3 +130,15 @@ alias clip="nc localhost 8377"
 # }
 zsh ~/start_sessions.zsh
 export DISABLE_AUTO_TITLE='true'
+mldevpublicip=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=Kirk" --query "Reservations[*].Instances[*].PublicIpAddress"  --output=text)
+export mldevpublicip
+killstartattach() {
+  for var in "$@"
+  do
+    tmk "$var"
+  done
+  startsessions
+  for last; do true; done
+  echo "attaching to last passed argument, $last"
+  tma $last
+}
