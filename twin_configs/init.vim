@@ -46,23 +46,40 @@ call plug#begin('~/.config/nvim/plugged')
     \ 'branch': 'next',
     \ 'do': 'bash install.sh',
     \ }
+  Plug 'neovim/nvim-lsp'
   Plug 'deoplete-plugins/deoplete-jedi'
+  Plug 'tpope/vim-repeat'
+  Plug 'justinmk/vim-sneak'
+  Plug 'tell-k/vim-autopep8'
+  Plug 'tpope/vim-fugitive' 
   call plug#end()
 if has("autocmd")
   au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
+let g:python3_host_prog = '/home/ubuntu/anaconda3/envs/newenv/bin/python'
 filetype plugin indent on
 set wildmenu
 set cursorline 
 set showmatch
 imap jj <Esc>
+
 "colorscheme distinguished
+" autocmd BufWritePre *.py execute ':Black'
+
+
 set updatetime=250
+" set foldmethod=indent
+let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 set foldmethod=syntax
 set foldlevelstart=0
-set foldnestmax=20
+set foldnestmax=50
+let g:kite_supported_languages=[]
 let g:fastfold_fold_command_suffixes = []
+let g:sneak#s_next = 1
 nmap zuz (FastFoldUpdate)
+" call deoplete#custom#option('profile', v:true)
+" call deoplete#enable_logging('DEBUG', 'deoplete.log')
+" call deoplete#custom#source('jedi', is_debug_enabled, 1)
 let g:fastfold_savehook = 1
 let g:tex_fold_enabled=1
 let g:vimsyn_folding='af'
@@ -71,9 +88,15 @@ let g:php_folding = 1
 let g:perl_fold = 1
 let g:python_syntax_folding=1
 let g:python_fold = 1
-map <C-w> <Plug>(easymotion-bd-w)
+" map <C-w> <Plug>(easymotion-bd-w)
 map <C-e> <Plug>(easymotion-bd-e)
-map <C-b> <Plug>(easymotion-b)
+" map <C-h> <Plug>(easymotion-linebackward)
+" map <C-l> <Plug>(easymotion-lineforward)
+map <C-s> <Plug>(easymotion-sn)
+" map  <Leader>f <Plug>(easymotion-bd-f)
+" nmap <Leader>f <Plug>(easymotion-overwin-f)
+" map  <C-h> <Plug>(easymotion-h)
+" map <C-b> <Plug>(easymotion-b)
 " map <C-k> <Plug>(easymotion-k)
 " map <C-j> <Plug>(easymotion-j)
 map /  <Plug>(incsearch-forward)
@@ -88,7 +111,7 @@ map #  <Plug>(incsearch-nohl-#)
 map g* <Plug>(incsearch-nohl-g*)
 map g# <Plug>(incsearch-nohl-g#)"
 let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP /Users/frederickhadley/twins'
+let g:ctrlp_cmd = 'CtrlP ~/kirk/'
 let g:ctrlp_match_window = 'bottom,order:ttb'
 let g:ctrlp_switch_buffer = 0
 " let g:ctrlp_cmd='CtrlP /home/ubnuntu/kirk'
@@ -101,12 +124,16 @@ let vim_markdown_preview_hotkey='<C-m>'
 let vim_markdown_preview_browser='Google Chrome'
 let vim_markdown_preview_github=1
 autocmd BufRead,BufNewFile *.md setlocal spell
+" autocmd BufNewFile,BufRead *Docker*   set filetype=dockerfile
 " map <Leader>c  <Plug>(IPy-Interrupt)
 " map <Leader>d <Plug>(IPy-Terminate)
-nnoremap   <silent>   <Leader>i    :FloatermNew --height=0.5 --width=0.2 --wintype=floating --name=ipy --position=topright --autoclose=1 --name=ipy ipython <CR>
-tnoremap   <silent>   <Leader>i    <C-\><C-n>:FloatermNew --height=0.5 --width=0.2 --wintype=floating --name=ipy --position=topright --autoclose=1 --name=ipy ipython <CR>
-nnoremap   <silent>   <C-x>   :FloatermToggle<CR>
-tnoremap   <silent>   <C-x>   <C-\><C-n>:FloatermToggle<CR>
+nnoremap   <silent>   <Leader>z  :FloatermNew --height=0.9 --width=0.7 --wintype=floating --name=ipy --position=topright --autoclose=1 --name=ipy ipython <CR>
+tnoremap   <silent>   <Leader>z    <C-\><C-n>:FloatermNew --height=0.9 --width=0.7 --wintype=floating --name=ipy --position=topright --autoclose=1 --name=ipy ipython <CR>
+" nnoremap   <silent>   <M-x>   :FloatermToggle<CR>
+" tnoremap   <silent>   <M-X>   <C-\><C-n>:FloatermToggle<CR>
+let g:floaterm_keymap_toggle = '<F13>'
+vmap <silent> <Leader>s :FloatermSend<CR>
+let g:floaterm_keymap_new = '<F14>'
 " command! -nargs=* LaunchIpy execute 'FloatermNew --height=0.5 --width=0.2 --wintype=floating --name=ipy --position=topright --autoclose=1 --name=ipy ipython'
 " command! -nargs=* ShowIpy execute 'FloatermShow ipy'
 " command! -nargs=* ToggleIpy execute 'FloatermToggle ipy'
@@ -120,29 +147,18 @@ nnoremap <Leader>n1 :set nonumber norelativenumber<CR>
 nnoremap <Leader>w :w<CR>
 nnoremap <Leader>q :q<CR>
 nnoremap <Leader>e :wq<CR>
+nnoremap <Leader>fk :FloatermKill<CR>
 nnoremap <Leader>k :NERDTree<CR>
+let g:cellmode_default_mappings='0'
 " nnoremap <leader>h :tabprevious<CR>
 " nnoremap <leader>l :tabprevious<CR>
 nnoremap <Leader>o :lopen<CR>
 set hidden
-let g:LanguageClient_serverCommands = {
-    \ 'python': ['/Users/frederickhadley/anaconda3/envs/newenv/bin/pyls']}
+" let g:LanguageClient_serverCommands = {
+"     \ 'python': ['/Users/frederickhadley/anaconda3/envs/newenv/bin/pyls']}
 "     \   "plugins": {
 "     \       "pyflakes": {
-"     \           "enabled": v:false
-"     \       },
-"     \        "pydocstyle": {
-"     \            "enabled": v:false
-"     \       },
-"     \       "jedi_completion":{
-"     \         "enabled": v:false
-"     \       },
-"     \       "pyflakes" : { "enabled": v:true},
-"     \   }
-"     \ ],
-"     \ }
-" let g:LanguageClient_serverCommands = {
-"           \ "python":['/Users/frederickhadley/anaconda3/envs/newenv/bin/pyls',{
+"     frederickhadley/anaconda3/envs/newenv/bin/pyls',{
 "           \     "enable" : v:true,
 "           \     "trace" : { "server" : "verbose", },
 "           \     "commandPath" : "",
@@ -181,16 +197,16 @@ let g:LanguageClient_serverCommands = {
 
 nnoremap <F5> :call LanguageClient_contextMenu()<CR>
 " Or map each action separately
-nnoremap <silent> <Leader>l :call LanguageClient#textDocument_hover()<CR>
+nnoremap <silent> <Leader>lc :call LanguageClient#textDocument_hover()<CR>
 nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
 nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
 
 " nnoremap <leader>y :call system('nc localhost 8377', @0)<CR>
 " nnoremap <Leader>t :Ctrlp /home/ubuntu/kirk/ <CR>
 " let NERDTreeShowHidden=1
-let g:python3_host_prog='/Users/frederickhadley/anaconda3/envs/newenv/bin/python3.6'
+" let g:python3_host_prog='/home/ubuntu/anaconda3/envs/newenv/bin/python3.7'
 let g:deoplete#enable_at_startup = 1
-
+let g:deoplete#sources#jedi#ignore_errors=1
 " if !exists('g:deoplete#omni#input_patterns')
 "   let g:deoplete#omni#input_patterns = {}
 " endif
@@ -198,12 +214,17 @@ let g:deoplete#enable_at_startup = 1
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 " nnoremap <Leader>s :SyntasticToggleMode<CR>
-vmap <Leader>y "+y
-vmap <Leader>d "+d
-nmap <Leader>p "+p
-nmap <Leader>P "+P
-vmap <Leader>p "+p
-vmap <Leader>P "+P
+" vnoremap p "0p
+" vnoremap P "0P
+" vnoremap y "0y
+" vnoremap d "0d
+
+vmap <Leader>y "0y
+vmap <Leader>d "0d
+nmap <Leader>p "0p
+nmap <Leader>P "0P
+vmap <Leader>p "0p
+vmap <Leader>P "0P
 nmap <Leader>4 $
 nmap <Leader>6 ^
 nnoremap <F2> :set invpaste paste?<CR>
@@ -323,41 +344,101 @@ let g:ale_linters = {
   \ 'javascript': ['eslint'],
   \ }
 
-" let settings = {
-"           \   "pyls" : {
-"           \     "enable" : v:true,
-"           \     "trace" : { "server" : "verbose", },
-"           \     "commandPath" : "",
-"           \     "plugins" : {
-"           \       "jedi_completion" : { "enabled" : v:false, },
-"           \       "jedi_hover" : { "enabled" : v:true, },
-"           \       "jedi_references" : { "enabled" : v:true, },
-"           \       "jedi_signature_help" : { "enabled" : v:true, },
-"           \       "jedi_symbols" : {
-"           \         "enabled" : v:true,
-"           \         "all_scopes" : v:true,
-"           \       },
-"           \       "mccabe" : {
-"           \         "enabled" : v:true,
-"           \         "threshold" : 15,
-"           \       },
-"           \       "pycodestyle" : { "enabled" : v:false, },
-"           \       "pydocstyle" : {
-"           \         "enabled" : v:false,
-"           \       },
-"           \       "pyflakes" : { "enabled" : v:false, },
-"           \       "rope_completion" : { "enabled" : v:true, },
-"           \       "yapf" : { "enabled" : v:true, },
-"           \     }}}
+let g:settings = {
+          \   "pyls" : {
+          \     "enable" : v:true,
+          \     "trace" : { "server" : "verbose", },
+          \     "plugins" : {
+          \       "jedi_completion" : { "enabled" : v:true, },
+          \       "jedi_hover" : { "enabled" : v:true, },
+          \       "jedi_references" : { "enabled" : v:true, },
+          \       "jedi_signature_help" : { "enabled" : v:true, },
+          \       "jedi_symbols" : {
+          \         "enabled" : v:true,
+          \         "all_scopes" : v:true,
+          \       },
+          \       "mccabe" : {
+          \         "enabled" : v:true,
+          \         "threshold" : 15,
+          \       },
+          \       "pycodestyle" : { "enabled" : v:true},
+          \       "pydocstyle" : {
+          \         "enabled" : v:false,
+          \       },
+          \       "pyflakes" : { "enabled" : v:false, },
+          \       "rope_completion" : { "enabled" : v:true, },
+          \       "yapf" : { "enabled" : v:true, },
+          \     }}}
 " call nvim_lsp#setup("pyls", settings)
 
+lua  << EOF
+local nvim_lsp = require'nvim_lsp'
+nvim_lsp.util.default_config = vim.tbl_extend(
+  "force",
+  nvim_lsp.util.default_config,
+  { root_dir = nvim_lsp.util.root_pattern('.git')}
+  )
+EOF
 
+
+" nvim_lsp.pyls.setup{settings=vim.g.settings}
+
+lua << EOF
+local nvim_lsp = require'nvim_lsp'
+nvim_lsp.pyls.setup{
+    settings = {
+        pyls = {
+            plugins = {
+                pycodestyle = {
+                    enabled = false
+                },
+                pylint = {
+                    enabled = false
+                },
+                pyflakes = {
+                    enabled = false
+                },
+                jedi_completion = { 
+                    enabled = false
+                },
+                jedi_hover = { 
+                    enabled = false
+                },
+                jedi_references = { 
+                    enabled = false
+                },
+                jedi_signature_help = { 
+                    enabled = false 
+                },
+                jedi_symbols = {
+                    enabled = false,
+                    all_scopes = false,
+                },
+               mccabe = {
+                    enabled = false,
+                    threshold = 15,
+               },
+            }
+        },
+    },
+}
+EOF
+
+" sign define LspDiagnosticsErrorSign text=💩 texthl=LspDiagnosticsError linehl= numhl=
+" sign define LspDiagnosticsWarningSign text=⚠️' texthl=LspDiagnosticsWarning linehl= numhl=
+"
 "'python3': ['flake8'],
 "let g:ale_python_flake8_args = '--ignore=E,W,F403,F405 --select=C'
-let g:ale_python_flake8_options = '--select F,E --ignore W,E302,E231,E722,E128,E225,E302,E222,E265,E226,E501,E305,E271,E272,F401,F841,E203,E262,E731,E712'
+"let g:ale_python_flake8_options = '--select F,E --ignore W,E302,E231,E722,E128,E225,E302,E222,E265,E226,E501,E305,E271,E272,E203,E262,E731,E712'
+" 
+let g:ale_python_flake8_options = '--select F,E,W --ignore E231,W291,W503,E712,E203,E121,E122,E123,E124,E125,E126,E127,E128,E129,E131,E133,E225'
+let g:autopep8_ignore="W503,E712,E203,E121,E122,E123,E124,E125,E126,E127,E128,E129,E131,E133,E225"
+" let g:autopep8_on_save = 1
 "let g:ale_python3_flake8_options = '--select F'
 let g:ale_sign_error = '💩'
 let g:ale_sign_warning = '⚠️'
+" let g:LspDiagnosticsErrorSign = '💩'
+" let g:LspDiagnosticsWarningSign = '⚠️'
 nmap <silent> <C-k> :lprevious<CR> 
 nmap <silent> <C-j> :lnext<CR>
 let g:ale_set_highlights = 0
@@ -368,8 +449,10 @@ fun! s:fzf_root()
 	let path = finddir(".git", expand("%:p:h").";")
 	return fnamemodify(substitute(path, ".git", "", ""), ":p:h")
 endfun
+nnoremap <silent> fk :FloatermKill<CR>
 
 nnoremap <silent> <Leader>ff :exe 'Files ' . <SID>fzf_root()<CR>
+nnoremap <silent> <Leader>fu :FastFoldUpdate<CR>
 "inoremap <c-W>o:MaximizerToggle<CR>
 " nnoremap <C-W>O :call MaximizeToggle()<CR>
 " nnoremap <C-W>o :call MaximizeToggle()<CR>
