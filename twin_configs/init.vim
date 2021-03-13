@@ -58,6 +58,7 @@ if has("autocmd")
 endif
 let g:python3_host_prog = '/home/ubuntu/anaconda3/envs/newenv/bin/python'
 filetype plugin indent on
+let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 set wildmenu
 set cursorline 
 set showmatch
